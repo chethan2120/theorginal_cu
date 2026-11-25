@@ -7,6 +7,13 @@ import { Seo } from "../components/Seo.tsx";
 import { PageWidth, btnPrimary } from "../components/ui.tsx";
 import { products } from "../data/products.ts";
 
+const assurances = [
+  { title: "Certified GI Terroirs", text: "Single-origin authentic provenance", crown: false },
+  { title: "7-Stage Lab Certified", text: "Zero dyes, fillers, or adulterants", crown: false },
+  { title: "Nitrogen Fresh Sealed", text: "Preserving delicate volatile oils", crown: false },
+  { title: "Complimentary Express", text: "Free delivery on orders over ₹999", crown: true },
+];
+
 const shelves = [
   {
     no: "01",
@@ -159,7 +166,7 @@ const homeFaq = [
   },
   {
     q: "What does delivery cost?",
-    a: "The sample rule is ₹79. It becomes free once the goods, after any discount, reach ₹1,499. No courier is connected.",
+    a: "Delivery is ₹79. It becomes free once the goods, after any discount, reach ₹999.",
   },
   {
     q: "Will checkout charge me?",
@@ -193,6 +200,7 @@ function usePointerTilt(max = 10) {
 
 export default function Home() {
   const featured = products.filter((product) => product.bestseller && !product.categories.includes("gifts")).slice(0, 4);
+  const dryFruits = products.filter((product) => product.categories.includes("dry-fruits"));
 
   return (
     <>
@@ -201,11 +209,11 @@ export default function Home() {
         description="Shop spices, dry fruits, nuts, seeds and gift boxes from THE ORIGINAL. Choose a weight, review the bag and place a sample order."
       />
 
-      <section className="relative isolate h-[min(86vh,760px)] min-h-[560px] w-full overflow-hidden">
+      <section className="relative isolate h-[min(86vh,760px)] min-h-[560px] w-full overflow-hidden bg-navy">
         <div className="hero-frame">
           <img
-            src="/images/editorial/hero-spices.jpg"
-            alt="Spoons and piles of turmeric, chilli, mustard, star anise and cinnamon"
+            src="/images/editorial/hero-premium.jpg"
+            alt="Antique spoon of green cardamom with cinnamon, star anise, pistachios, almonds and turmeric on dark slate"
             className="hero-breathe"
           />
         </div>
@@ -229,6 +237,24 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="border-b border-line bg-ivory">
+        <PageWidth className="grid gap-3 py-4 sm:grid-cols-2 lg:grid-cols-4">
+          {assurances.map((item) => (
+            <article key={item.title} className="rounded-xl border border-line bg-paper px-4 py-3.5">
+              {item.crown ? (
+                <span className="mb-1 block text-gold" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+                    <path d="M3.2 16.8 2 7.4l5.2 3.4L12 4.6l4.8 6.2L22 7.4l-1.2 9.4H3.2Zm.6 1.4h16.4v1.6H3.8v-1.6Z" />
+                  </svg>
+                </span>
+              ) : null}
+              <p className="font-serif text-xl leading-tight text-navy">{item.title}</p>
+              <p className="mt-1 text-sm leading-5 text-mute">{item.text}</p>
+            </article>
+          ))}
+        </PageWidth>
       </section>
 
       <PageWidth className="py-16 sm:py-20">
@@ -279,12 +305,33 @@ export default function Home() {
             <h2 className="mt-3 font-serif text-4xl font-medium text-navy">Lift a picture. It turns toward you.</h2>
           </div>
         </div>
-        <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
-          {orbit.map((item, index) => (
-            <OrbitCard key={item.slug} item={item} index={index} />
+        <div className="mt-10 grid grid-cols-5 gap-3 sm:gap-6">
+          {orbit.map((item) => (
+            <OrbitCard key={item.slug} item={item} />
           ))}
         </div>
       </PageWidth>
+
+      <section className="bg-ivory py-16">
+        <PageWidth>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-gold">The tin</p>
+              <h2 className="mt-2 font-serif text-4xl font-semibold text-navy">Our dry fruits.</h2>
+            </div>
+            <Link to="/shop?category=dry-fruits" className="text-sm font-semibold text-navy">
+              All dry fruits
+            </Link>
+          </div>
+          <div className="mt-10 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+            {dryFruits.map((product, index) => (
+              <Reveal key={product.id} from={index % 2 === 0 ? "left" : "right"} delay={(index % 4) * 70}>
+                <ProductCard product={product} surface="var(--color-ivory)" />
+              </Reveal>
+            ))}
+          </div>
+        </PageWidth>
+      </section>
 
       <section className="border-y border-line bg-paper">
         <PageWidth className="py-16">
@@ -328,7 +375,7 @@ export default function Home() {
             </li>
             <li>
               <p className="font-serif text-2xl text-navy">02 — Keep the bag</p>
-              <p className="mt-1 text-sm leading-6 text-mute">The cart stays in this browser. Delivery is ₹79, and it drops away at ₹1,499.</p>
+              <p className="mt-1 text-sm leading-6 text-mute">The cart stays in this browser. Delivery is ₹79, and it drops away at ₹999.</p>
             </li>
             <li>
               <p className="font-serif text-2xl text-navy">03 — Place a demonstration order</p>
@@ -591,19 +638,12 @@ function HomeFaq() {
   );
 }
 
-function OrbitCard({
-  item,
-  index,
-}: {
-  item: (typeof orbit)[number];
-  index: number;
-}) {
+function OrbitCard({ item }: { item: (typeof orbit)[number] }) {
   const tilt = usePointerTilt(14);
   return (
     <Link
       to={`/product/${item.slug}`}
       className="hero-stage block text-center"
-      style={{ marginTop: index % 2 === 0 ? 0 : 28 }}
     >
       <span
         ref={tilt.ref}
@@ -619,7 +659,7 @@ function OrbitCard({
           />
         </span>
       </span>
-      <span className="mt-3 block font-serif text-2xl text-navy">{item.name}</span>
+      <span className="mt-3 block font-serif text-sm text-navy sm:text-2xl">{item.name}</span>
     </Link>
   );
 }

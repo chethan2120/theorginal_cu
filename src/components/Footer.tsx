@@ -22,7 +22,7 @@ const helpLinks = [
 const notes = [
   "Spices, dry fruits, nuts and seeds.",
   "Weights from 100 g to 1 kg.",
-  "Delivery ₹79, free from ₹1,499.",
+  "Delivery ₹79, free from ₹999.",
 ];
 
 export function Footer() {
@@ -78,7 +78,12 @@ export function Footer() {
         <div className="border-t border-white/10">
           <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-2 px-5 py-4 text-xs text-paper/60 sm:flex-row sm:items-center sm:justify-between sm:px-8">
             <p>© {new Date().getFullYear()} THE ORIGINAL. Sample storefront.</p>
-            <p>Payments and shipping are not connected.</p>
+            <p>
+              Designed and Maintained by{" "}
+              <a href="https://webnxt.co/" className="text-paper underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
+                WebNxt
+              </a>
+            </p>
           </div>
         </div>
       </div>

@@ -78,19 +78,19 @@ export function Header() {
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <Link
             to="/account"
-            className="grid h-10 w-10 place-items-center text-navy"
+            className="grid h-12 w-12 place-items-center text-navy"
             aria-label="Profile"
             aria-current={location.pathname === "/account" ? "page" : undefined}
           >
-            <IconUser />
+            <IconUser className="h-8 w-8" />
           </Link>
           <Link
             to="/wishlist"
-            className="relative grid h-10 w-10 place-items-center text-navy"
+            className="relative grid h-12 w-12 place-items-center text-navy"
             aria-label={`Wishlist, ${wishlist.ids.length} saved`}
             aria-current={location.pathname === "/wishlist" ? "page" : undefined}
           >
-            <IconHeart />
+            <IconHeart className="h-8 w-8" />
             {wishlist.ids.length > 0 ? (
               <span className="absolute top-1 right-0 min-w-4 rounded-full bg-navy px-1 text-center text-[10px] leading-4 text-paper">
                 {wishlist.ids.length}
@@ -99,11 +99,11 @@ export function Header() {
           </Link>
           <Link
             to="/cart"
-            className="relative grid h-10 w-10 place-items-center text-navy"
+            className="relative grid h-12 w-12 place-items-center text-navy"
             aria-label={`Cart, ${summary.count} items`}
             aria-current={location.pathname === "/cart" ? "page" : undefined}
           >
-            <IconBag />
+            <IconBag className="h-8 w-8" />
             {summary.count > 0 ? (
               <span className="absolute top-1 right-0 min-w-4 rounded-full bg-navy px-1 text-center text-[10px] leading-4 text-paper">
                 {summary.count}

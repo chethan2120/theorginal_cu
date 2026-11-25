@@ -45,7 +45,7 @@ export default function Heritage() {
         description="How THE ORIGINAL is set up as a shop for spices and dry fruits. The catalogue is sample stock until the client’s own story and photographs arrive."
       />
       <section className="bg-ivory">
-        <PageWidth className="grid items-center gap-12 py-16 lg:grid-cols-2">
+        <PageWidth className="grid items-start gap-10 pt-8 pb-12 lg:grid-cols-2">
           <Reveal from="left">
             <p className="text-[12px] tracking-[0.2em] text-gold uppercase">Heritage</p>
             <h1 className="mt-3 font-serif text-5xl leading-tight font-medium text-navy">

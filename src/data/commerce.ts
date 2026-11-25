@@ -1,5 +1,5 @@
 export const DELIVERY_FEE = 79;
-export const FREE_DELIVERY_AT = 1499;
+export const FREE_DELIVERY_AT = 999;
 
 export const promoRates: Record<string, number> = {
   ORIGINAL10: 0.1,

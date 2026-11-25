@@ -63,14 +63,16 @@ export default function Contact() {
         title="Contact us — THE ORIGINAL"
         description="Send a note to THE ORIGINAL. The form is validated on this device. A studio address has not been supplied yet."
       />
-      <section className="relative isolate min-h-[460px] overflow-hidden">
-        <img
-          src="/images/editorial/market-stall.jpg"
-          alt=""
-          className="hero-breathe absolute -inset-[8%] h-[116%] w-[116%] max-w-none object-cover"
-        />
+      <section className="relative isolate min-h-[420px] overflow-hidden bg-navy">
+        <div className="hero-frame">
+          <img
+            src="/images/editorial/contact-hero.jpg"
+            alt="An envelope, a brass pen, cardamom and cinnamon on dark slate"
+            className="hero-breathe"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/70 via-navy/45 to-navy/20" />
-        <PageWidth className="relative flex min-h-[460px] items-end py-16">
+        <PageWidth className="relative flex min-h-[420px] items-end py-12">
           <div className="max-w-xl text-paper">
             <p className="text-[12px] tracking-[0.22em] text-gold-line uppercase">Contact us</p>
             <h1 className="mt-3 font-serif text-5xl leading-tight font-medium sm:text-6xl">Write to the house.</h1>
