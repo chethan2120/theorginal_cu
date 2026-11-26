@@ -8,11 +8,11 @@ import { PageWidth, btnPrimary } from "../components/ui.tsx";
 import { products } from "../data/products.ts";
 
 const assurances = [
-  { title: "Certified GI Terroirs", text: "Single-origin authentic provenance" },
-  { title: "7-Stage Lab Certified", text: "Zero dyes, fillers, or adulterants" },
-  { title: "Nitrogen Fresh Sealed", text: "Preserving delicate volatile oils" },
-  { title: "Complimentary Express", text: "Free delivery on orders over ₹999" },
-];
+  { title: "Certified GI Terroirs", text: "Single-origin authentic provenance", icon: "origin" },
+  { title: "7-Stage Lab Certified", text: "Zero dyes, fillers, or adulterants", icon: "lab" },
+  { title: "Nitrogen Fresh Sealed", text: "Preserving delicate volatile oils", icon: "seal" },
+  { title: "Complimentary Express", text: "Free delivery on orders over ₹999", icon: "delivery" },
+] as const;
 
 const shelves = [
   {
@@ -200,6 +200,47 @@ function usePointerTilt(max = 10) {
   return { ref, transform, onPointerMove, onPointerLeave };
 }
 
+function AssuranceIcon({ name }: { name: (typeof assurances)[number]["icon"] }) {
+  const pen = {
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.5,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+      {name === "origin" ? (
+        <>
+          <path {...pen} d="M4 16.5 8.2 10l3.1 3.4L15.2 8 20 16.5" />
+          <path {...pen} d="M4 19h16" />
+        </>
+      ) : null}
+      {name === "lab" ? (
+        <>
+          <path {...pen} d="M9 3h6" />
+          <path {...pen} d="M10 3v5.5L6.8 17.2A2.8 2.8 0 0 0 9.3 21h5.4a2.8 2.8 0 0 0 2.5-3.8L14 8.5V3" />
+          <path {...pen} d="M8.6 14h6.8" />
+        </>
+      ) : null}
+      {name === "seal" ? (
+        <>
+          <path {...pen} d="M9 5h6v3H9z" />
+          <path {...pen} d="M8 8h8v10.2a1.8 1.8 0 0 1-1.8 1.8H9.8A1.8 1.8 0 0 1 8 18.2V8z" />
+          <path {...pen} d="M10.5 12.5h3" />
+        </>
+      ) : null}
+      {name === "delivery" ? (
+        <>
+          <path {...pen} d="M3.5 8.2 12 4.5l8.5 3.7L12 12z" />
+          <path {...pen} d="M3.5 8.2V16l8.5 3.7L20.5 16V8.2" />
+          <path {...pen} d="M12 12v7.7" />
+        </>
+      ) : null}
+    </svg>
+  );
+}
+
 export default function Home() {
   const featured = products.filter((product) => product.bestseller && !product.categories.includes("gifts")).slice(0, 4);
   const dryFruits = products.filter((product) => product.categories.includes("dry-fruits"));
@@ -212,7 +253,7 @@ export default function Home() {
       />
 
       <section
-        className="home-hero relative isolate w-full bg-navy"
+        className="home-hero home-hero-lead relative isolate w-full bg-navy"
         style={{ "--hero": "url(/images/editorial/hero-premium.jpg)" } as CSSProperties}
       >
         <div className="hero-frame">
@@ -247,11 +288,16 @@ export default function Home() {
       </section>
 
       <section className="border-b border-line bg-ivory">
-        <PageWidth className="grid gap-3 pt-2 pb-4 sm:grid-cols-2 lg:grid-cols-4">
+        <PageWidth className="grid gap-3 pt-8 pb-6 sm:grid-cols-2 sm:pt-12 sm:pb-8 lg:grid-cols-4">
           {assurances.map((item) => (
-            <article key={item.title} className="rounded-xl border border-line bg-paper px-4 py-3.5">
-              <p className="font-serif text-lg leading-tight text-navy sm:text-xl">{item.title}</p>
-              <p className="mt-1 text-sm leading-5 text-mute">{item.text}</p>
+            <article key={item.title} className="flex items-start gap-3 rounded-xl border border-line bg-paper px-4 py-3.5">
+              <span className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-gold-line/60 text-gold">
+                <AssuranceIcon name={item.icon} />
+              </span>
+              <span>
+                <p className="font-serif text-lg leading-tight text-navy sm:text-xl">{item.title}</p>
+                <p className="mt-1 text-sm leading-5 text-mute">{item.text}</p>
+              </span>
             </article>
           ))}
         </PageWidth>
@@ -277,21 +323,27 @@ export default function Home() {
           </div>
         </div>
         <div className="mt-8 grid gap-4 lg:grid-cols-2 lg:grid-rows-2">
-          {shelves.map((shelf) => (
-            <Link
+          {shelves.map((shelf, index) => (
+            <Reveal
               key={shelf.no}
-              to={shelf.to}
-              className={`group relative flex min-h-[240px] overflow-hidden rounded-2xl ${shelf.tall ? "lg:row-span-2 lg:min-h-[520px]" : ""}`}
+              from={shelf.tall ? "left" : "right"}
+              delay={shelf.tall ? 0 : index * 110}
+              className={`shelf-in h-full ${shelf.tall ? "lg:row-span-2" : ""}`}
             >
-              <img src={shelf.image} alt={shelf.alt} className="absolute inset-0 h-full w-full object-cover" />
-              <span className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/15 to-transparent" />
-              <span className="relative flex h-full min-h-[240px] flex-col justify-end p-6 text-paper lg:min-h-0">
-                <span className="text-sm font-semibold text-paper/80">{shelf.no}</span>
-                <span className="mt-1 font-serif text-4xl font-semibold">{shelf.title}</span>
-                <span className="mt-2 max-w-sm text-sm font-medium leading-6 text-paper/90">{shelf.text}</span>
-                <span className="mt-3 text-sm font-semibold">Open this shelf</span>
-              </span>
-            </Link>
+              <Link
+                to={shelf.to}
+                className={`group relative flex h-full min-h-[240px] overflow-hidden rounded-2xl ${shelf.tall ? "lg:min-h-[520px]" : ""}`}
+              >
+                <img src={shelf.image} alt={shelf.alt} className="absolute inset-0 h-full w-full object-cover" />
+                <span className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/15 to-transparent" />
+                <span className="relative flex h-full min-h-[240px] flex-col justify-end p-6 text-paper lg:min-h-0">
+                  <span className="text-sm font-semibold text-paper/80">{shelf.no}</span>
+                  <span className="mt-1 font-serif text-4xl font-semibold">{shelf.title}</span>
+                  <span className="mt-2 max-w-sm text-sm font-medium leading-6 text-paper/90">{shelf.text}</span>
+                  <span className="mt-3 text-sm font-semibold">Open this shelf</span>
+                </span>
+              </Link>
+            </Reveal>
           ))}
         </div>
       </PageWidth>
