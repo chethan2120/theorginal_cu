@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, type CSSProperties, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Seo } from "../components/Seo.tsx";
 import { PageWidth, btnPrimary, fieldClass, labelClass } from "../components/ui.tsx";
@@ -63,7 +63,10 @@ export default function Contact() {
         title="Contact us — THE ORIGINAL"
         description="Send a note to THE ORIGINAL. The form is validated on this device. A studio address has not been supplied yet."
       />
-      <section className="relative isolate min-h-[420px] overflow-hidden bg-navy">
+      <section
+        className="home-hero relative isolate w-full bg-navy"
+        style={{ "--hero": "url(/images/editorial/contact-hero.jpg)" } as CSSProperties}
+      >
         <div className="hero-frame">
           <img
             src="/images/editorial/contact-hero.jpg"
@@ -72,7 +75,7 @@ export default function Contact() {
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/70 via-navy/45 to-navy/20" />
-        <PageWidth className="relative flex min-h-[420px] items-end py-12">
+        <PageWidth className="relative flex h-full items-end py-12">
           <div className="max-w-xl text-paper">
             <p className="text-[12px] tracking-[0.22em] text-gold-line uppercase">Contact us</p>
             <h1 className="mt-3 font-serif text-5xl leading-tight font-medium sm:text-6xl">Write to the house.</h1>

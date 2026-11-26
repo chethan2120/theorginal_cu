@@ -35,7 +35,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur-sm">
       <div className="h-[3px] bg-navy" />
-      <div className="relative mx-auto flex h-[78px] w-full max-w-[1180px] items-center px-5 sm:px-8">
+      <div className="relative mx-auto flex h-16 w-full max-w-[1180px] items-center px-4 sm:h-[78px] sm:px-8">
         <Link
           to="/"
           className="z-10 flex shrink-0 items-center gap-3"
@@ -50,7 +50,7 @@ export function Header() {
             alt=""
             width={58}
             height={58}
-            className="h-[58px] w-[58px] object-cover"
+            className="h-11 w-11 object-cover sm:h-[58px] sm:w-[58px]"
           />
           <span className="hidden font-serif text-[1.15rem] tracking-[0.22em] text-navy xl:block">
             THE ORIGINAL
@@ -78,19 +78,19 @@ export function Header() {
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <Link
             to="/account"
-            className="grid h-12 w-12 place-items-center text-navy"
+            className="grid h-11 w-11 place-items-center text-navy sm:h-12 sm:w-12"
             aria-label="Profile"
             aria-current={location.pathname === "/account" ? "page" : undefined}
           >
-            <IconUser className="h-8 w-8" />
+            <IconUser className="h-7 w-7 sm:h-8 sm:w-8" />
           </Link>
           <Link
             to="/wishlist"
-            className="relative grid h-12 w-12 place-items-center text-navy"
+            className="relative grid h-11 w-11 place-items-center text-navy sm:h-12 sm:w-12"
             aria-label={`Wishlist, ${wishlist.ids.length} saved`}
             aria-current={location.pathname === "/wishlist" ? "page" : undefined}
           >
-            <IconHeart className="h-8 w-8" />
+            <IconHeart className="h-7 w-7 sm:h-8 sm:w-8" />
             {wishlist.ids.length > 0 ? (
               <span className="absolute top-1 right-0 min-w-4 rounded-full bg-navy px-1 text-center text-[10px] leading-4 text-paper">
                 {wishlist.ids.length}
@@ -99,11 +99,11 @@ export function Header() {
           </Link>
           <Link
             to="/cart"
-            className="relative grid h-12 w-12 place-items-center text-navy"
+            className="relative grid h-11 w-11 place-items-center text-navy sm:h-12 sm:w-12"
             aria-label={`Cart, ${summary.count} items`}
             aria-current={location.pathname === "/cart" ? "page" : undefined}
           >
-            <IconBag className="h-8 w-8" />
+            <IconBag className="h-7 w-7 sm:h-8 sm:w-8" />
             {summary.count > 0 ? (
               <span className="absolute top-1 right-0 min-w-4 rounded-full bg-navy px-1 text-center text-[10px] leading-4 text-paper">
                 {summary.count}

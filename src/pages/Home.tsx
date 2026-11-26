@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
 import { Link } from "react-router-dom";
 import { NewsletterForm } from "../components/NewsletterForm.tsx";
 import { ProductCard } from "../components/ProductCard.tsx";
@@ -8,10 +8,10 @@ import { PageWidth, btnPrimary } from "../components/ui.tsx";
 import { products } from "../data/products.ts";
 
 const assurances = [
-  { title: "Certified GI Terroirs", text: "Single-origin authentic provenance", crown: false },
-  { title: "7-Stage Lab Certified", text: "Zero dyes, fillers, or adulterants", crown: false },
-  { title: "Nitrogen Fresh Sealed", text: "Preserving delicate volatile oils", crown: false },
-  { title: "Complimentary Express", text: "Free delivery on orders over ₹999", crown: true },
+  { title: "Certified GI Terroirs", text: "Single-origin authentic provenance" },
+  { title: "7-Stage Lab Certified", text: "Zero dyes, fillers, or adulterants" },
+  { title: "Nitrogen Fresh Sealed", text: "Preserving delicate volatile oils" },
+  { title: "Complimentary Express", text: "Free delivery on orders over ₹999" },
 ];
 
 const shelves = [
@@ -180,11 +180,13 @@ function usePointerTilt(max = 10) {
   const [transform, setTransform] = useState("rotateX(0deg) rotateY(0deg)");
 
   useEffect(() => {
-    reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const fine = window.matchMedia("(pointer: fine)");
+    reduced.current = motion.matches || !fine.matches;
   }, []);
 
   function onPointerMove(event: ReactPointerEvent<HTMLDivElement>) {
-    if (reduced.current || !ref.current) return;
+    if (reduced.current || event.pointerType !== "mouse" || !ref.current) return;
     const box = ref.current.getBoundingClientRect();
     const x = (event.clientX - box.left) / box.width - 0.5;
     const y = (event.clientY - box.top) / box.height - 0.5;
@@ -209,7 +211,10 @@ export default function Home() {
         description="Shop spices, dry fruits, nuts, seeds and gift boxes from THE ORIGINAL. Choose a weight, review the bag and place a sample order."
       />
 
-      <section className="relative isolate h-[min(86vh,760px)] min-h-[560px] w-full overflow-hidden bg-navy">
+      <section
+        className="home-hero relative isolate w-full bg-navy"
+        style={{ "--hero": "url(/images/editorial/hero-premium.jpg)" } as CSSProperties}
+      >
         <div className="hero-frame">
           <img
             src="/images/editorial/hero-premium.jpg"
@@ -217,18 +222,19 @@ export default function Home() {
             className="hero-breathe"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-navy/55 via-navy/20 to-transparent" />
-        <div className="relative mx-auto flex h-full min-h-[560px] w-full max-w-[1180px] items-center px-5 py-16 sm:px-8">
-          <div className="max-w-lg text-paper [text-shadow:0_1px_2px_rgba(8,16,32,0.75),0_10px_28px_rgba(8,16,32,0.45)]">
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(12,27,51,0.92)_0%,rgba(12,27,51,0.78)_38%,rgba(12,27,51,0.2)_64%,transparent_80%)]" />
+        <div className="absolute inset-0 flex items-center">
+          <div className="mx-auto w-full max-w-[1180px] px-5 sm:px-8">
+          <div className="max-w-[16rem] text-paper sm:max-w-md lg:max-w-lg [text-shadow:0_1px_2px_rgba(8,16,32,0.75),0_10px_28px_rgba(8,16,32,0.45)]">
             <p className="text-sm font-semibold">Spices and dry fruits</p>
-            <h1 className="mt-3 font-serif text-5xl font-semibold leading-[1.02] sm:text-6xl">
+            <h1 className="mt-2 font-serif text-5xl font-semibold leading-[1.02] sm:mt-3 sm:text-6xl">
               Sold by weight. Priced on the page.
             </h1>
-            <p className="mt-4 max-w-md text-lg font-medium leading-7">
+            <p className="hero-copy mt-3 max-w-[14rem] text-lg font-medium leading-7 sm:max-w-md">
               100 g up to 1 kg. The figure you see is the figure that goes in the bag.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/shop" className={btnPrimary}>
+            <div className="mt-4 flex flex-wrap gap-3 sm:mt-8">
+              <Link to="/shop" className={`${btnPrimary} border border-paper/40`}>
                 Shop the catalogue
               </Link>
               <Link to="/heritage" className="inline-flex items-center px-2 py-3 text-sm font-semibold text-paper">
@@ -236,21 +242,15 @@ export default function Home() {
               </Link>
             </div>
           </div>
+          </div>
         </div>
       </section>
 
       <section className="border-b border-line bg-ivory">
-        <PageWidth className="grid gap-3 py-4 sm:grid-cols-2 lg:grid-cols-4">
+        <PageWidth className="grid gap-3 pt-2 pb-4 sm:grid-cols-2 lg:grid-cols-4">
           {assurances.map((item) => (
             <article key={item.title} className="rounded-xl border border-line bg-paper px-4 py-3.5">
-              {item.crown ? (
-                <span className="mb-1 block text-gold" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-                    <path d="M3.2 16.8 2 7.4l5.2 3.4L12 4.6l4.8 6.2L22 7.4l-1.2 9.4H3.2Zm.6 1.4h16.4v1.6H3.8v-1.6Z" />
-                  </svg>
-                </span>
-              ) : null}
-              <p className="font-serif text-xl leading-tight text-navy">{item.title}</p>
+              <p className="font-serif text-lg leading-tight text-navy sm:text-xl">{item.title}</p>
               <p className="mt-1 text-sm leading-5 text-mute">{item.text}</p>
             </article>
           ))}
@@ -272,7 +272,7 @@ export default function Home() {
               Dry fruits for the tin, whole spices for the jar, powders for the pot you cook every day.
             </p>
             <Link to="/shop" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-gold">
-              See the full shop <span aria-hidden="true">→</span>
+              See the full shop
             </Link>
           </div>
         </div>
@@ -289,7 +289,7 @@ export default function Home() {
                 <span className="text-sm font-semibold text-paper/80">{shelf.no}</span>
                 <span className="mt-1 font-serif text-4xl font-semibold">{shelf.title}</span>
                 <span className="mt-2 max-w-sm text-sm font-medium leading-6 text-paper/90">{shelf.text}</span>
-                <span className="mt-3 text-sm font-semibold">Open this shelf →</span>
+                <span className="mt-3 text-sm font-semibold">Open this shelf</span>
               </span>
             </Link>
           ))}
@@ -305,7 +305,7 @@ export default function Home() {
             <h2 className="mt-3 font-serif text-4xl font-medium text-navy">Lift a picture. It turns toward you.</h2>
           </div>
         </div>
-        <div className="mt-10 grid grid-cols-5 gap-3 sm:gap-6">
+        <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-5 md:gap-6 md:overflow-visible">
           {orbit.map((item) => (
             <OrbitCard key={item.slug} item={item} />
           ))}
@@ -643,7 +643,7 @@ function OrbitCard({ item }: { item: (typeof orbit)[number] }) {
   return (
     <Link
       to={`/product/${item.slug}`}
-      className="hero-stage block text-center"
+      className="hero-stage block w-[42vw] shrink-0 snap-start text-center sm:w-[28vw] md:w-auto"
     >
       <span
         ref={tilt.ref}
